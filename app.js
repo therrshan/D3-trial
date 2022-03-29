@@ -21,12 +21,19 @@ function logFile(event) {
     let bar = document.querySelector('#bar').value;
     let catVar = document.getElementById('xVar').value;
     let numVar = document.getElementById('yVar').value;
+    let hsvg = document.getElementById('svgH')
+    let vsvg = document.getElementById('svgV')
 
 
     if (bar == vert){
+        hsvg.setAttribute("visibility", "hidden")
+        vsvg.setAttribute("visibility", "visible")
         verticalGraph(json, numVar, catVar );
+        
     }
     if (bar == hori){
+        hsvg.setAttribute("visibility", "visible")
+        vsvg.setAttribute("visibility", "hidden")
         horizontalGraph(json, numVar, catVar );
     }
 }

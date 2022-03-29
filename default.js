@@ -2,7 +2,7 @@ function verticalGraph(obj, numVar, catVar) {
 
     console.log(obj)
 
-    const svg = d3.select('svg');
+    const svg = d3.select('#svgV');
     const svgContainer = d3.select('#container');
 
     const margin = 80;
@@ -57,7 +57,7 @@ function horizontalGraph(obj, numVar, catVar) {
     const height = 400;
     const margin = { top: 50, bottom: 50, left: 90, right: 50 };
 
-    const svg = d3.select('svg');
+    const svg = d3.select('#svgH');
     const svgContainer = d3.select('#container');
 
     const chart = svg.append('g')
