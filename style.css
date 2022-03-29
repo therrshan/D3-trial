@@ -1,0 +1,39 @@
+body {
+    font-family: "Open Sans", sans-serif;
+    text-align: center;
+  }
+  
+  div#layout {
+    text-align: center;
+  }
+  
+  div#container {
+    width: 1000px;
+    height: 600px;
+    margin: auto;
+    /* background-color: #4e7eca; */
+  }
+  
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .bar {
+    fill: #003a69;
+  }
+  
+  .bar:hover {
+    opacity: 0.4;
+  }
+  
+  text {
+    font-size: 12px;
+    fill: rgb(10, 4, 4);
+  }
+  
+  body {
+    margin: 100px;
+    text-align: center;
+  }
+  
