@@ -19,21 +19,24 @@
         <form id="upload">
             <label for="file">File to upload</label>
             <input type="file" id="file" accept=".json">
+
+            <br /><br /><label for="bar"> Choose Type of bar: </label>
+            <select name="bar" id="bar">
+                <option value="vertical" id="ver">Vertical</option>
+                <option value="horizontal" id="hor">Horizontal</option>
+            </select>
+
+            <br /><label> Enter the categorical variable: </label>
+            <input type="text" id="xVar" /> <br />
+    
+            <label> Enter the numerical variable: </label>
+            <input type="text" id="yVar" /> <br /><br />
+
             <input type="submit" value="Upload">
             <br />
         </form>
 
-        <br /><label for="bar"> Choose Type of bar: </label>
-        <select name="bar" id="bar">
-            <option value="vertical" id="ver">Vertical</option>
-            <option value="horizontal" id="hor">Horizontal</option>
-        </select>
-        <br /><label> Enter the categorical variable: </label>
-        <br /><input type="text" id="xVar" /> <br /><br />
 
-        <br /><label> Enter the numerical variable: </label>
-        <br /><input type="text" id="yVar" /> <br /><br />
-        <button id="sub">Submit</button>
 
         <div id='container'>
         <svg id = "svg"></svg>
