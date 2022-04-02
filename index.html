@@ -20,7 +20,7 @@
             <label for="file">File to upload</label>
             <input type="file" id="file" accept=".json">
 
-            <br /><br /><label for="bar"> Choose Type of bar: </label>
+            <!-- <br /><br /><label for="bar"> Choose Type of bar: </label>
             <select name="bar" id="bar">
                 <option value="vertical" id="ver">Vertical</option>
                 <option value="horizontal" id="hor">Horizontal</option>
@@ -30,17 +30,30 @@
             <input type="text" id="xVar" /> <br />
     
             <label> Enter the numerical variable: </label>
-            <input type="text" id="yVar" /> <br /><br />
+            <input type="text" id="yVar" /> <br /><br /> -->
 
             <input type="submit" value="Upload">
             <br />
         </form>
 
+        <label for="barF" hidden="hidden" id="labelF"> Choose The Filter: </label>
+        <select name="filterBar" id="barF" hidden="hidden">
+            <option value="name" id="name">Name</option>
+            <option value="id" id="id">ID</option>
+        </select>
+
+        <input type="text" id="filterValue" hidden="hidden" />
+        <input type="submit" value="Submit" id="filterSubmit" hidden="hidden">
+
+        <textarea id="result" hidden="hidden"></textarea>
+
+
+
 
 
         <div id='container'>
-        <svg id = "svgV"></svg>
-        <svg id= "svgH"></svg>
+            <svg id="svgV"></svg>
+            <svg id="svgH"></svg>
 
 </body>
 
