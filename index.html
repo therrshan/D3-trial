@@ -4,57 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D3</title>
+    <title>File Loader</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <script src="https://d3js.org/d3.v5.min.js" defer></script>
     <script src="https://d3js.org/d3-scale.v3.min.js" defer></script>
     <link rel="stylesheet" href="style.css">
-    <script src="app.js" defer></script>
-    <script src="default.js" defer></script>
+    <script src="js/fileLoader.js" defer></script>
+    <script src="js/graphs.js" defer></script>
+    
 </head>
 
 <body>
-    <h1>Bar chart example</h2>
+    <h1>File Loader and Data FIlter</h1>
 
-        <form id="upload">
-            <label for="file">File to upload</label>
-            <input type="file" id="file" accept=".json">
+    <input type="file" id="selectFiles" value="Import" />
+    <button id="import">Import</button>
 
-            <!-- <br /><br /><label for="bar"> Choose Type of bar: </label>
-            <select name="bar" id="bar">
-                <option value="vertical" id="ver">Vertical</option>
-                <option value="horizontal" id="hor">Horizontal</option>
-            </select>
+    <div class="justified">
+        <br /><textarea id="result">Your Json will appear here</textarea>
+    </div>
 
-            <br /><label> Enter the categorical variable: </label>
-            <input type="text" id="xVar" /> <br />
-    
-            <label> Enter the numerical variable: </label>
-            <input type="text" id="yVar" /> <br /><br /> -->
+    <label for="barF" hidden="hidden" id="labelF"> Choose The Filter: </label>
+    <select id="barF" hidden="hidden">
+        <option value="name" id="nameF">Name</option>
+        <option value="id" id="idF">ID</option>
+    </select>
 
-            <input type="submit" value="Upload">
-            <br />
-        </form>
-
-        <label for="barF" hidden="hidden" id="labelF"> Choose The Filter: </label>
-        <select name="filterBar" id="barF" hidden="hidden">
-            <option value="name" id="name">Name</option>
-            <option value="id" id="id">ID</option>
-        </select>
-
-        <input type="text" id="filterValue" hidden="hidden" />
-        <input type="submit" value="Submit" id="filterSubmit" hidden="hidden">
-
-        <textarea id="result" hidden="hidden"></textarea>
-
-
-
-
-
-        <div id='container'>
-            <svg id="svgV"></svg>
-            <svg id="svgH"></svg>
+    <input type="text" id="filterValue" hidden="hidden" />
+    <input type="submit" value="Submit" id="filterSubmit" hidden="hidden">
 
 </body>
-
-</html>
