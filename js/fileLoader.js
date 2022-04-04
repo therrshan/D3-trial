@@ -22,8 +22,11 @@ document.getElementById('import').onclick = function () {
 
         filter.addEventListener("click", function () {
 
+            Primarykeys = getPrimaryKeys(result, keyArr = [])
+            SecondaryKeys = getSecondaryKeys(result, keyArr = [], primKey = "", Primarykeys)
+
             let filterValue = document.getElementById('filterValue').value
-            drawGraph(result, filterValue)
+            drawGraph(result, filterValue, SecondaryKeys)
         })
     }
 
