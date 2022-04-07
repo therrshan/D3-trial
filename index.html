@@ -31,6 +31,25 @@
 
     <input type="text" id="filterValue" hidden="hidden" />
     <input type="submit" value="Submit" id="filterSubmit" hidden="hidden">
+    <input type="submit" value="Update" id="updateFilter" hidden="hidden" >
+    
+
+    <br><br><label for="barX" hidden="hidden" id="labelX"> Choose Categorical Value </label>
+    <select id="barX" hidden="hidden">
+    </select>
+
+    <br><label for="barY" hidden="hidden" id="labelY"> Choose Numerical Value </label>
+    <select id="barY" hidden="hidden">
+    </select>
+
+    <form>
+        <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+        <input type="number" id="number" value="0" />
+        <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+      </form>
+
+      <br><br><button id="horizontalButton" hidden>Horizontal</button>
+    <button id="verticalButton" hidden>Vertical</button>
 
     <svg id="my_dataviz"></svg>
 

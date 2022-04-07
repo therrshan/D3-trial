@@ -17,16 +17,19 @@ document.getElementById('import').onclick = function () {
         var formatted = JSON.stringify(result, null, 2)
         document.getElementById('result').value = formatted
 
+        
+        let updateF = document.querySelector('#updateFilter')
+        updateF.addEventListener("click", function(){
+            drawBarGraph(result)
+        })
+
         let filter = document.querySelector('#filterSubmit')
-
-
         filter.addEventListener("click", function () {
 
             Primarykeys = getPrimaryKeys(result, keyArr = [])
             SecondaryKeys = getSecondaryKeys(result, keyArr = [], primKey = "", Primarykeys)
-
-            let filterValue = document.getElementById('filterValue').value
-            drawGraph(result, filterValue, SecondaryKeys)
+            drawBarGraph(result)
+            
         })
     }
 
