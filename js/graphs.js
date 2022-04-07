@@ -22,24 +22,31 @@ function drawBarGraph(obj) {
     let numVar = document.getElementById("barY")
     numVar.removeAttribute("hidden")
 
-    for (x in key) {
-        var option = document.createElement("option")
-        option.value = key[x]
-        option.text = key[x]
-        catVar.appendChild(option)
+    if (catVar.children.length == 0) {
+        for (x in key) {
+            var option = document.createElement("option")
+            option.value = key[x]
+            option.text = key[x]
+            catVar.appendChild(option)
+        }
     }
 
-    for (x in key) {
-        var option = document.createElement("option")
-        option.value = key[x]
-        option.text = key[x]
-        numVar.appendChild(option)
+    if (numVar.children.length == 0) {
+        for (x in key) {
+            var option = document.createElement("option")
+            option.value = key[x]
+            option.text = key[x]
+            numVar.appendChild(option)
+        }
     }
+
+
+
 
     let formwidth = document.getElementById("widthForm").removeAttribute("hidden")
     document.getElementById("labelO").removeAttribute("hidden")
     let orient = document.getElementById("orient")
-        orient.removeAttribute("hidden")
+    orient.removeAttribute("hidden")
 
     let buttonG = document.getElementById("graph")
 
@@ -47,13 +54,13 @@ function drawBarGraph(obj) {
 
     buttonG.addEventListener("click", function () {
 
-        
+
         let orient = document.getElementById("orient")
 
-        if(orient.value == "horizontal"){
+        if (orient.value == "horizontal") {
             horizontalGraph()
         }
-        else if (orient.value == "vertical"){
+        else if (orient.value == "vertical") {
             verticalGraph()
         }
 
@@ -97,6 +104,13 @@ function verticalGraph() {
         .domain([0, 100])
         .range([height, 0]);
 
+
+    if (document.getElementById("gid")) {
+        document.getElementById("gid").removeChild(document.getElementById("yid"))
+        document.getElementById("gid").removeChild(document.getElementById("xid"))
+    }
+
+
     var svg = d3.select("#my_dataviz")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -110,9 +124,9 @@ function verticalGraph() {
 
 
     }
-    else {
-        document.getElementById("gid").removeChild(document.getElementById("xid"))
-    }
+    // else {
+    //     document.getElementById("gid").removeChild(document.getElementById("xid"))
+    // }
 
 
     svg.select("g").append("g")
@@ -122,6 +136,7 @@ function verticalGraph() {
 
     svg.select("g").append("g")
         .attr("class", "myYaxis")
+        .attr("id", "yid")
         .call(d3.axisLeft(y));
 
 
@@ -173,8 +188,8 @@ function horizontalGraph() {
     console.log(flag)
 
     var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-        width = 500 * scaleFactor - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        width = 500 - margin.left - margin.right,
+        height = 500 * scaleFactor - margin.top - margin.bottom;
 
     var y = d3.scaleBand()
         .range([0, height])
@@ -184,6 +199,11 @@ function horizontalGraph() {
     var x = d3.scaleLinear()
         .domain([0, 100])
         .range([0, width]);
+
+    if (document.getElementById("gid")) {
+        document.getElementById("gid").removeChild(document.getElementById("yid"))
+        document.getElementById("gid").removeChild(document.getElementById("xid"))
+    }
 
     var svg = d3.select("#my_dataviz")
         .attr("width", width + margin.left + margin.right)
@@ -198,9 +218,10 @@ function horizontalGraph() {
 
 
     }
-    else {
-        document.getElementById("gid").removeChild(document.getElementById("xid"))
-    }
+    // else {
+    //     document.getElementById("gid").removeChild(document.getElementById("yid"))
+    //     document.getElementById("gid").removeChild(document.getElementById("xid"))
+    // }
 
 
     svg.select("g").append("g")
@@ -208,10 +229,11 @@ function horizontalGraph() {
         .attr("id", "xid")
         .call(d3.axisBottom(x))
         .selectAll("text")
-            .attr("transform", "translate(-10,0)rotate(-45)")
-            .style("text-anchor", "end");
+        .attr("transform", "translate(-10,0)rotate(-45)")
+        .style("text-anchor", "end");
 
     svg.select("g").append("g")
+        .attr("id", "yid")
         .call(d3.axisLeft(y));
 
 
