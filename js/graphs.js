@@ -36,14 +36,28 @@ function drawBarGraph(obj) {
         numVar.appendChild(option)
     }
 
+    let formwidth = document.getElementById("widthForm").removeAttribute("hidden")
+    document.getElementById("labelO").removeAttribute("hidden")
+    let orient = document.getElementById("orient")
+        orient.removeAttribute("hidden")
 
-    let buttonH = document.getElementById("horizontalButton")
-    let buttonV = document.getElementById("verticalButton")
-    buttonH.removeAttribute("hidden")
-    buttonV.removeAttribute("hidden")
+    let buttonG = document.getElementById("graph")
 
-    buttonH.addEventListener("click", horizontalGraph)
-    buttonV.addEventListener("click", verticalGraph)
+    buttonG.removeAttribute("hidden")
+
+    buttonG.addEventListener("click", function () {
+
+        
+        let orient = document.getElementById("orient")
+
+        if(orient.value == "horizontal"){
+            horizontalGraph()
+        }
+        else if (orient.value == "vertical"){
+            verticalGraph()
+        }
+
+    })
 
 
 
@@ -57,7 +71,7 @@ function drawBarGraph(obj) {
 
 }
 
-function horizontalGraph() {
+function verticalGraph() {
 
     dataObject = getDataObject()
     console.log(dataObject)
@@ -65,9 +79,6 @@ function horizontalGraph() {
     keys = getkeys()
     catKey = keys[0]
     numKey = keys[1]
-
-    console.log(catKey)
-    console.log(numKey)
 
     let filter = document.querySelector('#filterSubmit')
     let flag = filter.getAttribute("hidden");
@@ -94,21 +105,22 @@ function horizontalGraph() {
         svg
             .append("g")
             .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
+                "translate(" + margin.left + "," + margin.top + ")")
+            .attr("id", "gid")
 
 
     }
-    else{
-        document.getElementById("my_dataviz").removeChild(document.getElementById("xid"))
+    else {
+        document.getElementById("gid").removeChild(document.getElementById("xid"))
     }
-    
 
-    svg.append("g")
+
+    svg.select("g").append("g")
         .attr("transform", "translate(0," + height + ")")
         .attr("id", "xid")
         .call(d3.axisBottom(x))
 
-    svg.append("g")
+    svg.select("g").append("g")
         .attr("class", "myYaxis")
         .call(d3.axisLeft(y));
 
@@ -128,7 +140,7 @@ function horizontalGraph() {
 function update(data, svg, x, y, height) {
 
 
-    var u = svg.selectAll("rect")
+    var u = svg.select("g").selectAll("rect")
         .data(data)
 
     u
@@ -148,18 +160,93 @@ function update(data, svg, x, y, height) {
 
 }
 
-function verticalGraph() {
+function horizontalGraph() {
+    dataObject = getDataObject()
+    console.log(dataObject)
 
-    catData = getcatArray()
-    numData = getnumArray()
+    keys = getkeys()
+    catKey = keys[0]
+    numKey = keys[1]
 
-    data = filteredData
+    let filter = document.querySelector('#filterSubmit')
+    let flag = filter.getAttribute("hidden");
+    console.log(flag)
 
-    console.log(catData)
-    console.log(numData)
+    var margin = { top: 30, right: 30, bottom: 70, left: 60 },
+        width = 500 * scaleFactor - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    var y = d3.scaleBand()
+        .range([0, height])
+        .domain(dataObject.map(function (d) { return d[catKey]; }))
+        .padding(0.2);
+
+    var x = d3.scaleLinear()
+        .domain([0, 100])
+        .range([0, width]);
+
+    var svg = d3.select("#my_dataviz")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+
+    if (flag != "hidden") {
+        svg
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")")
+            .attr("id", "gid")
+
+
+    }
+    else {
+        document.getElementById("gid").removeChild(document.getElementById("xid"))
+    }
+
+
+    svg.select("g").append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .attr("id", "xid")
+        .call(d3.axisBottom(x))
+        .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end");
+
+    svg.select("g").append("g")
+        .call(d3.axisLeft(y));
+
+
+
+
+
+    updateH(dataObject, svg, x, y, height)
+
+    filter.setAttribute("hidden", "hidden")
+    let updateF = document.querySelector('#updateFilter').removeAttribute("hidden")
 
 }
 
+function updateH(data, svg, x, y, height) {
+
+
+    var u = svg.select("g").selectAll("rect")
+        .data(data)
+
+    u
+        .enter()
+        .append("rect")
+        .merge(u)
+        .transition()
+        .duration(1000)
+        .attr("x", x(0))
+        .attr("y", function (d) { return y(d[catKey]); })
+        .attr("width", function (d) { return x(d[numKey]); })
+        .attr("height", y.bandwidth())
+        .attr("fill", "#69b3a2")
+
+    svg.exit().remove()
+
+
+}
 function getcatArray() {
 
     let catValue = document.getElementById("barX").value
@@ -307,7 +394,7 @@ function decreaseValue() {
     var value = parseInt(document.getElementById('number').value, 10);
     var scaleFactor = 1;
     value = isNaN(value) ? 0 : value;
-    
+
     value--;
     document.getElementById('number').value = value;
 
