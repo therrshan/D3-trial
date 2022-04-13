@@ -1,69 +1,22 @@
 function stackedBar(obj) {
+
+
     res = flattenJSON(obj)
-    console.log(res)
     data = getStackedData(res, obj)
-    var subgroups = ["exam", "quiz", "homework", "homework#2"]
+    var subgroups = []
 
-    // var initStackedBarChart = {
-    //     draw: function(config) {
-    //         me = this,
-    //         domEle = config.element,
-    //         stackKey = config.key,
-    //         data = config.data,
-    //         margin = {top: 20, right: 20, bottom: 30, left: 50},
-    //         width = 2000 - margin.left - margin.right,
-    //         height = 500 - margin.top - margin.bottom,
-    //         xScale = d3.scaleBand().range([0, width]).padding(0.1),
-    //         yScale = d3.scaleLinear().range([400, 0]),
-    //         color = d3.scaleOrdinal(d3.schemeCategory20),
-    //         xAxis = d3.axisBottom(xScale).tickFormat(d3.timeFormat("%b")),
-    //         yAxis =  d3.axisLeft(yScale),
-    //         svg = d3.select("#"+domEle).append("svg")
-    //                 .attr("width", width + margin.left + margin.right)
-    //                 .attr("height", height + margin.top + margin.bottom)
-    //                 .append("g")
-    //                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var Primarykeys = getPrimaryKeys(obj, keyArr = [])
 
-    //         var stack = d3.stack()
-    //             .keys(stackKey)
-    //             .order(d3.stackOrderNone)
-    //             .offset(d3.stackOffsetNone);
+    console.log(data)
 
-    //         var layers= stack(data);
-    //             xScale.domain(data.map(function(d) { return d.name; }));
-    //             yScale.domain([0, d3.max(layers[layers.length - 1], function(d) { return d[0] + d[1]; }) ]).nice();
-
-    //         var layer = svg.selectAll(".layer")
-    //             .data(layers)
-    //             .enter().append("g")
-    //             .attr("class", "layer")
-    //             .style("fill", function(d, i) { return color(i); });
-
-    //           layer.selectAll("rect")
-    //               .data(function(d) { return d; })
-    //             .enter().append("rect")
-    //               .attr("x", function(d) { return xScale(d.data.name); })
-    //               .attr("y", function(d) { return yScale(d[1]); })
-    //               .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
-    //               .attr("width", xScale.bandwidth());
-
-    //             svg.append("g")
-    //             .attr("class", "axis axis--x")
-    //             .attr("transform", "translate(0," + (height+5) + ")")
-    //             .call(xAxis);
-
-    //             svg.append("g")
-    //             .attr("class", "axis axis--y")
-    //             .attr("transform", "translate(0,0)")
-    //             .call(yAxis);							
-    //     }
-    // }
-
-    // initStackedBarChart.draw({
-    //     data: data,
-    //     key: key,
-    //     element: 'my_dataviz'
-    // });
+    for(g in data[0]){
+        if(!Primarykeys.includes(g)){
+            subgroups.push(g)
+        }
+    }
+    
+    console.log(subgroups)
+    
 
     var margin = { top: 10, right: 30, bottom: 20, left: 50 },
         width = 1000 * scaleFactor - margin.left - margin.right,
@@ -81,7 +34,7 @@ function stackedBar(obj) {
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
-    var groups = d3.map(data, function (d) { return (d.id) }).keys()
+    var groups = d3.map(data, function (d) { return (d[Primarykeys[0]]) }).keys()
 
     // Add X axis
     var x = d3.scaleBand()
@@ -152,12 +105,12 @@ function stackedBar(obj) {
         // Enter in the stack data = loop key per key = group per group
         .data(stackedData)
         .enter().append("g")
-        .attr("fill", function (d) { return color(d.key); })
+        .attr("fill", randomColor)
         .selectAll("rect")
         // enter a second time = loop subgroup per subgroup to add all rectangles
         .data(function (d) { return d; })
         .enter().append("rect")
-        .attr("x", function (d) { return x(d.data.id); })
+        .attr("x", function (d) { return x(d.data[Primarykeys[0]]); })
         .attr("y", function (d) { return y(d[1]); })
         .attr("height", function (d) { return y(d[0]) - y(d[1]); })
         .attr("width", x.bandwidth())
@@ -187,19 +140,65 @@ function getStackedData(res, obj) {
     let tmpDict = {}
 
     let x = 0
-    let i = 0
+    let m = 0
+    let n = 0
+
+    let secMain = []
+    let secSub = []
+    let tmpArr = []
+
+    var Primarykeys = getPrimaryKeys(obj, keyArr = [])
+    var SecondaryKeys = getSecondaryKeys(obj, keyArr = [], primKey = "", Primarykeys)
+
+    for (tmp in SecondaryKeys){
+        if(SecondaryKeys[tmp].includes(".")){
+            tmpArr = SecondaryKeys[tmp].split(".")
+        }
+
+        if(!secMain.includes(tmpArr[0])){
+            secMain.push(tmpArr[0])
+        }
+
+        if(!secSub.includes(tmpArr[1])){
+            secSub.push(tmpArr[1])
+        }
+    }
+
+    console.log(secMain)
+    console.log(secSub)
 
     while (x < obj.length) {
-        tmpDict["id"] = obj[x]["_id"]
-        tmpDict[obj[x]["scores"][0]["type"]] = obj[x]["scores"][0]["score"]
-        tmpDict[obj[x]["scores"][1]["type"]] = obj[x]["scores"][1]["score"]
-        tmpDict[obj[x]["scores"][2]["type"]] = obj[x]["scores"][2]["score"]
-        tmpDict["homework#2"] = obj[x]["scores"][3]["score"]
+
+        for (m in Primarykeys){
+            tmpDict[Primarykeys[m]] = obj[x][Primarykeys[m]]
+        }
+
+
+        for (n in secMain){
+            let l = 0
+            while(l<obj[x][secMain[n]].length){
+                if(!tmpDict[obj[x][secMain[n]][l][secSub[0]]]){
+                    tmpDict[obj[x][secMain[n]][l][secSub[0]]] = obj[x][secMain[n]][l][secSub[1]]
+                }
+                else{
+                    tmpDict[obj[x][secMain[n]][l][secSub[0]]+"#2"] = obj[x][secMain[n]][l][secSub[1]]
+                }
+                
+                l++;
+            }
+        }
+
+
+        
+        // tmpDict[obj[x]["scores"][0]["type"]] = obj[x]["scores"][0]["score"]
+        // tmpDict[obj[x]["scores"][1]["type"]] = obj[x]["scores"][1]["score"]
+        // tmpDict[obj[x]["scores"][2]["type"]] = obj[x]["scores"][2]["score"]
+        // tmpDict["homework#2"] = obj[x]["scores"][3]["score"]
 
         dataObj.push(tmpDict)
         tmpDict = {}
         x++
     }
-
+    console.log(dataObj)
     return dataObj
 }

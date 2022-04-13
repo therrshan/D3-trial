@@ -148,6 +148,9 @@ function verticalGraph() {
     if(document.getElementById("bgid")){
         document.getElementById("bgid").remove()
     }
+    if(document.getElementById("sbid")){
+        document.getElementById("sbid").remove()
+    }
 
 
     var svg = d3.select("#my_dataviz")
@@ -259,6 +262,9 @@ function horizontalGraph() {
     if(document.getElementById("bgid")){
         document.getElementById("bgid").remove()
     }
+    if(document.getElementById("sbid")){
+        document.getElementById("sbid").remove()
+    }
 
     var svg = d3.select("#my_dataviz")
         .attr("width", width + margin.left + margin.right)
@@ -361,6 +367,9 @@ function connectedScatter() {
     
         if(document.getElementById("bgid")){
             document.getElementById("bgid").remove()
+        }
+        if(document.getElementById("sbid")){
+            document.getElementById("sbid").remove()
         }
 
 
@@ -507,9 +516,11 @@ function bubbleGraph() {
         if(document.getElementById("bgid")){
             document.getElementById("bgid").remove()
         }
+        if(document.getElementById("sbid")){
+            document.getElementById("sbid").remove()
+        }
 
     var svg = d3.select("#my_dataviz")
-        .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -601,6 +612,9 @@ function lineGrapgh() {
 
     if(document.getElementById("bgid")){
         document.getElementById("bgid").remove()
+    }
+    if(document.getElementById("sbid")){
+        document.getElementById("sbid").remove()
     }
 
 
@@ -712,6 +726,9 @@ function pieGraph() {
 
     if(document.getElementById("bgid")){
         document.getElementById("bgid").remove()
+    }
+    if(document.getElementById("sbid")){
+        document.getElementById("sbid").remove()
     }
 
     
