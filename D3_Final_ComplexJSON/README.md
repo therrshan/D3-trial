@@ -15,5 +15,3 @@ How to use this project -
 6. Repeat step - 4 for Y-axis.
 7. Go through the SampleDataInput image file for better understanding.
 8. You will see the graph is generated.
-
-By - Apoorva Dhalpawar
